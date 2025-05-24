@@ -13,22 +13,45 @@ class BotConfig(object):
 
 
 @dataclass
+class PostgresConfig(object):
+    """Postgres Config."""
+
+    url: str
+
+
+@dataclass
+class RedisConfig(object):
+    """Redis config."""
+
+    url: str
+
+
+@dataclass
 class Config(object):
     """Total config."""
 
     debug: bool
     bot: BotConfig
-    channels_to_subscribe: List[str]
+    redis: RedisConfig
+    postgres: PostgresConfig
 
 
 def get_config() -> Config:
     """Get config from env vars."""
+    debug: bool = os.getenv("DEBUG", "0") == "1"
     return Config(
-        debug=os.getenv("DEBUG", "0") == "1",
+        debug=debug,
         bot=BotConfig(
             token=os.getenv("BOT_TOKEN", "Bot token from BotFather"),
         ),
-        channels_to_subscribe=os.getenv("CHANNELS_TO_SUBSCRIBE", "").split(
-            ","
+        redis=RedisConfig(
+            url=os.getenv("REDIS_TEST_URL", "Redis test url") if debug else os.getenv("REDIS_URL", "Redis url"),
+        ),
+        postgres=PostgresConfig(
+            url=(
+                os.getenv("POSTGRES_TEST_URL", "Postgres test url")
+                if debug
+                else os.getenv("POSTGRES_URL", "Postgres prod url")
+            )
         ),
     )
