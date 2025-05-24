@@ -175,3 +175,5 @@ cython_debug/
 
 .idea
 .python-version
+/data/
+/telegram/src/db/alembic.ini
