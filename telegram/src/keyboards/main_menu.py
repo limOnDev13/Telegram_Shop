@@ -5,6 +5,7 @@ from logging import getLogger
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from telegram.src.keyboards import CATEGORY_CB
 from telegram.src.lexicon.ru import LEXICON_RU
 
 logger = getLogger("telegram.keyboards.main_menu")
@@ -17,7 +18,7 @@ def build_kb_with_main_menu() -> InlineKeyboardMarkup:
 
     catalog_bt: InlineKeyboardButton = InlineKeyboardButton(
         text=LEXICON_RU["catalog_bt"],
-        callback_data="catalog_bt",
+        callback_data=CATEGORY_CB,
     )
     shopping_cart_bt: InlineKeyboardButton = InlineKeyboardButton(
         text=LEXICON_RU["shopping_cart_bt"],

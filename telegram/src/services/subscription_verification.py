@@ -57,6 +57,9 @@ async def get_channels_to_subscribe(
         channels = await alchemy_channels_repo.get_all()
         if channels is None:
             return set()
+        else:
+            for channel in channels:
+                await redis_channels_repo.add(channel)
     return channels
 
 

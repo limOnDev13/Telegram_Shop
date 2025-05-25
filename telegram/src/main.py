@@ -8,15 +8,12 @@ from typing import Any, Dict
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from dotenv import load_dotenv
-from sqlalchemy.ext.asyncio import (
-    AsyncEngine,
-    async_sessionmaker,
-    create_async_engine,
-)
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from .config.app import Config, get_config
 from .config.log import get_log_config
-from .handlers import start_conversation_router
+from .db.database import create_async_session_fabric
+from .handlers import catalog_router, start_conversation_router
 from .middlewares import ConfigMiddleware, SessionFabricMiddleware
 
 
@@ -32,14 +29,9 @@ async def main():
     logger = logging.getLogger("telegram")
 
     # database
-    engine: AsyncEngine = create_async_engine(
-        config.postgres.url,
-        pool_pre_ping=True,
-        pool_size=100,
-        max_overflow=20,
-        pool_timeout=60,
+    Session: async_sessionmaker[AsyncSession] = create_async_session_fabric(
+        config
     )
-    Session = async_sessionmaker(bind=engine, expire_on_commit=False)
 
     try:
         # bot
@@ -57,10 +49,14 @@ async def main():
 
         # register routers
         dp.include_router(start_conversation_router)
+        dp.include_router(catalog_router)
 
         # register middlewares
         start_conversation_router.message.middleware(confid_middleware)
         start_conversation_router.message.middleware(session_fabric_middleware)
+
+        catalog_router.callback_query.middleware(session_fabric_middleware)
+        catalog_router.callback_query.middleware(confid_middleware)
 
         # launch bot
         await bot.delete_webhook(drop_pending_updates=True)
