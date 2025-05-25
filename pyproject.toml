@@ -21,6 +21,7 @@ line-length = 79
 force-exclude = '''
 /(
     \.venv
+    | migrations
 )
 '''
 
@@ -30,10 +31,12 @@ line_length = 79
 skip_gitignore = true
 skip_glob = [
     "**/.venv/*",
+    "**/migrations/*",
 ]
 
 [tool.mypy]
 exclude = [
     ".venv",
+    "migrations",
 ]
 ignore_missing_imports = true
