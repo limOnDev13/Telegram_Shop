@@ -4,10 +4,10 @@ import factory
 
 from telegram.src.db.models import Category
 
-from .base import AsyncBaseFactory
+from .base import BaseFactory
 
 
-class CategoryFactory(AsyncBaseFactory):
+class CategoryFactory(BaseFactory):
     """Category factory."""
 
     class Meta:
