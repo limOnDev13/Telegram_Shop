@@ -17,6 +17,7 @@ class PostgresConfig(object):
     """Postgres Config."""
 
     url: str
+    sync_url: str
 
 
 @dataclass
@@ -52,6 +53,7 @@ def get_config() -> Config:
                 os.getenv("POSTGRES_TEST_URL", "Postgres test url")
                 if debug
                 else os.getenv("POSTGRES_URL", "Postgres prod url")
-            )
+            ),
+            sync_url=os.getenv("POSTGRES_TEST_SYNC_URL", "Postgres test sync url") if debug else os.getenv("POSTGRES_SYNC_URL", "Postgres sync url")
         ),
     )
