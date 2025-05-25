@@ -1,6 +1,8 @@
-from typing import Optional, List, AsyncGenerator
+"""The module responsible for the sqlalchemy-based repository."""
 
-from sqlalchemy import select, func
+from typing import List, Optional
+
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from repositories.categories.base import BaseCategoryRepository
@@ -20,16 +22,19 @@ class AlchemyCategoryRepository(BaseCategoryRepository):
         self.__session_fabric = session_fabric
 
     async def add(self, category_schema: CategorySchema) -> None:
+        """Add new category."""
         async with self.__session_fabric() as session:
             category_model = Category(**category_schema.model_dump())
             session.add(category_model)
             await session.commit()
 
     async def get_by_id(self, category_id: int) -> Optional[CategorySchema]:
+        """Get category by id."""
         async with self.__session_fabric() as session:
             return await session.get(Category, category_id)
 
     async def remove(self, category_id: int) -> None:
+        """Remove category."""
         async with self.__session_fabric() as session:
             delete_q = await session.execute(
                 select(Category)
@@ -41,7 +46,10 @@ class AlchemyCategoryRepository(BaseCategoryRepository):
                 await session.delete(category)
                 await session.commit()
 
-    async def update(self, category_id: int, new_category_schema: CategorySchema) -> None:
+    async def update(
+        self, category_id: int, new_category_schema: CategorySchema
+    ) -> None:
+        """Update category."""
         async with self.__session_fabric() as session:
             category_q = await session.execute(
                 select(Category)
@@ -54,7 +62,10 @@ class AlchemyCategoryRepository(BaseCategoryRepository):
                 await session.merge(updated_category)
                 await session.commit()
 
-    async def get_per_page(self, page: int, per_page: int) -> List[CategorySchema]:
+    async def get_per_page(
+        self, page: int, per_page: int
+    ) -> List[CategorySchema]:
+        """Get page with categories."""
         async with self.__session_fabric() as session:
             categories_q = await session.execute(
                 select(Category)
@@ -68,6 +79,9 @@ class AlchemyCategoryRepository(BaseCategoryRepository):
             ]
 
     async def length(self) -> int:
+        """Get length of repository."""
         async with self.__session_fabric() as session:
-            count_q = await session.execute(select(func.count()).select_from(Category))
+            count_q = await session.execute(
+                select(func.count()).select_from(Category)
+            )
             return count_q.scalar()

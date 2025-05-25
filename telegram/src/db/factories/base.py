@@ -1,7 +1,9 @@
-from factory.alchemy import SQLAlchemyModelFactory
-from dotenv import load_dotenv
+"""The module responsible for the basic model factory."""
 
-from telegram.src.config.app import get_config, Config
+from dotenv import load_dotenv
+from factory.alchemy import SQLAlchemyModelFactory
+
+from telegram.src.config.app import Config, get_config
 from telegram.src.db.database import create_sync_session_fabric
 
 load_dotenv()
@@ -10,8 +12,12 @@ config: Config = get_config()
 Session = create_sync_session_fabric(config)
 
 
-class AsyncBaseFactory(SQLAlchemyModelFactory):
+class BaseFactory(SQLAlchemyModelFactory):
+    """Base factory."""
+
     class Meta:
+        """Meta class."""
+
         abstract = True
         sqlalchemy_session_persistence = "commit"
-        sqlalchemy_session_factory = lambda: Session()
+        sqlalchemy_session_factory = Session

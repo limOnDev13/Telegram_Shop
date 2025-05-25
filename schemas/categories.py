@@ -1,3 +1,5 @@
+"""The module responsible for the category schema."""
+
 from pydantic import BaseModel, Field
 
 
