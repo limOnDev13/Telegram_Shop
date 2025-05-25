@@ -11,4 +11,9 @@ LEXICON_RU: Dict[str, str] = {
     "catalog_bt": "Каталог",
     "shopping_cart_bt": "Корзина",
     "faq_bt": "FAQ",
+    "catalog": "Категории:",
+    "back_bt": "<",
+    "next_bt": ">",
+    "cur_page_bt": "{page}/{pages}",
+    "back_to_main_menu_bt": "ГЛАВНОЕ МЕНЮ",
 }
