@@ -13,3 +13,8 @@ dependencies = [
     "redis>=6.1.0",
     "sqlalchemy[asyncio]>=2.0.41",
 ]
+
+[dependency-groups]
+dev = [
+    "factory-boy>=3.3.3",
+]
