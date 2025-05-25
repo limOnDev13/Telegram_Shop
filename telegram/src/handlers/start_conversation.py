@@ -16,10 +16,8 @@ from telegram.src.config.app import Config
 from telegram.src.db.repositories import (
     SQLAlchemyChannelsToSubscribeRepository,
 )
-from telegram.src.keyboards import (
-    build_kb_with_channels_to_subscribe,
-    build_kb_with_main_menu,
-)
+from telegram.src.keyboards.channels_to_subscribe import build_kb_with_channels_to_subscribe
+from telegram.src.keyboards.main_menu import build_kb_with_main_menu
 from telegram.src.lexicon.ru import LEXICON_RU
 from telegram.src.services.subscription_verification import (
     check_subscription_on_channels,
