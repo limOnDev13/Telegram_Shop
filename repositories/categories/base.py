@@ -37,8 +37,3 @@ class BaseCategoryRepository(ABC):
     ) -> List[CategorySchema]:
         """Get page with categories."""
         pass
-
-    @abstractmethod
-    async def length(self) -> int:
-        """Get length of repository."""
-        pass

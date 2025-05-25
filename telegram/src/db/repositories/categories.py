@@ -77,11 +77,3 @@ class AlchemyCategoryRepository(BaseCategoryRepository):
                 CategorySchema.model_validate(category)
                 for category in categories_q.scalars().all()
             ]
-
-    async def length(self) -> int:
-        """Get length of repository."""
-        async with self.__session_fabric() as session:
-            count_q = await session.execute(
-                select(func.count()).select_from(Category)
-            )
-            return count_q.scalar()
