@@ -7,3 +7,4 @@ CATEGORY_PAGINATION: str = (
 CATEGORY_CUR_PAGE_CALLBACK: str = "category:cur_page"
 BACK_TO_MAIN_MENU_CALLBACK: str = "back_to_main_menu"
 PRODUCT_CB: str = "product:category_id={category_id}"
+BUY_PRODUCT_CB: str = "shopping_cart:add:product_id={product_id}"
