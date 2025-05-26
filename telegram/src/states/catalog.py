@@ -7,3 +7,4 @@ class FSMCatalog(StatesGroup):
     """FSM for viewing categories."""
 
     choose_category = State()
+    view_products = State()

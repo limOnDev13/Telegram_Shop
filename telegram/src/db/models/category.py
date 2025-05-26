@@ -24,9 +24,14 @@ class Category(Base):
     )
     parent: Mapped[Optional["Category"]] = relationship(
         "Category",
+        single_parent=True,
         foreign_keys=[parent_id],
         back_populates="subcategories",
         remote_side=[id],
+    )
+    products: Mapped[Optional[List["Product"]]] = relationship(
+        "Product",
+        back_populates="category",
     )
 
     subcategories: Mapped[List["Category"]] = relationship(

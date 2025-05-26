@@ -40,12 +40,6 @@ async def show_categories(
     pages = count_categories // per_page
     await state.set_state(FSMCatalog.choose_category)
 
-    logger.debug("Number pages: %d", pages)
-    logger.debug("Current page: %d", page)
-    logger.debug("Per page: %d", per_page)
-    logger.debug("Path: %s", path)
-    logger.debug("Root: %s", str(category_id))
-
     await cb.message.edit_text(
         text=path,
         reply_markup=await build_kb_with_categories(
@@ -79,12 +73,6 @@ async def pagination_categories(
     count_categories = await get_number_children(Session, root_id=category_id)
     logger.debug("Number categories: %d", count_categories)
     pages = count_categories // per_page
-
-    logger.debug("Number pages: %d", pages)
-    logger.debug("Current page: %d", page)
-    logger.debug("Per page: %d", per_page)
-    logger.debug("Path: %s", path)
-    logger.debug("Root: %s", str(category_id))
 
     await cb.message.edit_text(
         text=path,

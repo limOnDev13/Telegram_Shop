@@ -3,9 +3,11 @@
 from logging import getLogger
 from typing import List
 
-from aiogram import Router
-from aiogram.filters import Command, CommandStart
-from aiogram.types import Message
+from aiogram import F, Router
+from aiogram.filters import Command, CommandStart, StateFilter
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import default_state
+from aiogram.types import CallbackQuery, Message
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from repositories.channels_to_subscribe.redis import (
@@ -71,6 +73,23 @@ async def process_start_command(
             text=LEXICON_RU["successful_subscription_verification"],
             reply_markup=build_kb_with_main_menu(),
         )
+
+
+@router.message(
+    ~StateFilter(default_state), F.text == LEXICON_RU["back_to_main_menu_bt"]
+)
+@router.callback_query(
+    ~StateFilter(default_state), F.data == LEXICON_RU["back_to_main_menu_bt"]
+)
+async def back_to_main_menu(msg: Message | CallbackQuery, state: FSMContext):
+    """Show main menu."""
+    logger.debug("Show main menu.")
+    await state.clear()
+    await state.set_state(default_state)
+    await msg.answer(
+        text=LEXICON_RU["successful_subscription_verification"],
+        reply_markup=build_kb_with_main_menu(),
+    )
 
 
 @router.message(Command(commands="show_channel_id"))

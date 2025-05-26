@@ -33,6 +33,7 @@ class Config(object):
 
     debug: bool
     categories_per_page: int
+    products_per_page: int
     bot: BotConfig
     redis: RedisConfig
     postgres: PostgresConfig
@@ -44,6 +45,7 @@ def get_config() -> Config:
     return Config(
         debug=debug,
         categories_per_page=int(os.getenv("CATEGORIES_PER_PAGE", 10)),
+        products_per_page=int(os.getenv("PRODUCTS_PER_PAGE", 3)),
         bot=BotConfig(
             token=os.getenv("BOT_TOKEN", "Bot token from BotFather"),
         ),

@@ -7,11 +7,12 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from telegram.src.db.queries.categories import get_categories_by_root_id
+import telegram.src.db.queries.categories as q
 from telegram.src.keyboards import (
     BACK_TO_MAIN_MENU_CALLBACK,
     CATEGORY_CUR_PAGE_CALLBACK,
     CATEGORY_PAGINATION,
+    PRODUCT_CB,
 )
 from telegram.src.lexicon.ru import LEXICON_RU
 
@@ -19,22 +20,31 @@ logger = getLogger("telegram.keyboards.categories")
 
 
 def category_bt(
-    text: str, category_id: int | str, path: str, page: int = 0
+    text: str,
+    category_id: int | str,
+    path: str,
+    number_subcategories: Optional[int] = None,
+    page: int = 0,
 ) -> InlineKeyboardButton:
     """Create inline button with category."""
-    cb_data: str = CATEGORY_PAGINATION.format(
-        page=page,
-        category_id=category_id,
-        path=path,
-    )
-    if len(cb_data) >= 64:
-        path = path.split("/")[-1]
-        path = f".../{path}"
-    cb_data = CATEGORY_PAGINATION.format(
-        page=page,
-        category_id=category_id,
-        path=path,
-    )
+    if number_subcategories is not None and number_subcategories == 0:
+        cb_data: str = PRODUCT_CB.format(
+            category_id=category_id,
+        )
+    else:
+        cb_data = CATEGORY_PAGINATION.format(
+            page=page,
+            category_id=category_id,
+            path=path,
+        )
+        if len(cb_data) >= 64:
+            path = path.split("/")[-1]
+            path = f".../{path}"
+        cb_data = CATEGORY_PAGINATION.format(
+            page=page,
+            category_id=category_id,
+            path=path,
+        )
 
     return InlineKeyboardButton(
         text=text,
@@ -60,9 +70,10 @@ async def build_kb_with_categories(
             text=category.name,
             category_id=category.id,
             page=0,
+            number_subcategories=number_children,
             path="/".join((path, category.name)),
         )
-        for category in await get_categories_by_root_id(
+        for category, number_children in await q.get_categories_by_root_id(
             session_fabric=session_factory,
             root_id=root_id,
             offset=page * per_page,

@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from .config.app import Config, get_config
 from .config.log import get_log_config
 from .db.database import create_async_session_fabric
-from .handlers import catalog_router, start_conversation_router
+from .handlers import catalog_router, product_router, start_conversation_router
 from .middlewares import ConfigMiddleware, SessionFabricMiddleware
 
 
@@ -50,6 +50,7 @@ async def main():
         # register routers
         dp.include_router(start_conversation_router)
         dp.include_router(catalog_router)
+        dp.include_router(product_router)
 
         # register middlewares
         start_conversation_router.message.middleware(confid_middleware)
@@ -57,6 +58,11 @@ async def main():
 
         catalog_router.callback_query.middleware(session_fabric_middleware)
         catalog_router.callback_query.middleware(confid_middleware)
+
+        product_router.callback_query.middleware(session_fabric_middleware)
+        product_router.callback_query.middleware(confid_middleware)
+        product_router.message.middleware(confid_middleware)
+        product_router.message.middleware(session_fabric_middleware)
 
         # launch bot
         await bot.delete_webhook(drop_pending_updates=True)
