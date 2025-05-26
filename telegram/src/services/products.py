@@ -9,7 +9,10 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from telegram.src.db.models.product import Product
 from telegram.src.db.queries.products import get_products_with_category_id
-from telegram.src.keyboards.products import build_kb_for_viewing_products
+from telegram.src.keyboards.products import (
+    build_kb_for_buying_product,
+    build_kb_for_viewing_products,
+)
 from telegram.src.lexicon.ru import LEXICON_RU
 
 logger = getLogger("telegram.services.products")
@@ -48,6 +51,7 @@ async def send_product(cb: CallbackQuery | Message, product: Product) -> None:
                 name=product.name,
                 description=product.description,
             ),
+            reply_markup=build_kb_for_buying_product(product),
         )
     except FileNotFoundError as exc:
         logger.warning("Img %s not found. %s", product.img_path, str(exc))
