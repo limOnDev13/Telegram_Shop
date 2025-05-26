@@ -2,3 +2,4 @@
 
 from .category import Category
 from .channel_to_subscribe import ChannelToSubscribe
+from .product import Product
