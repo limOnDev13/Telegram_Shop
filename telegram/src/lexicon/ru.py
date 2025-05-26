@@ -16,4 +16,6 @@ LEXICON_RU: Dict[str, str] = {
     "next_bt": ">",
     "cur_page_bt": "{page}/{pages}",
     "back_to_main_menu_bt": "ГЛАВНОЕ МЕНЮ",
+    "product": "<b>{name}</b>\n\n{description}",
+    "next_batch_bt": "Еще",
 }
