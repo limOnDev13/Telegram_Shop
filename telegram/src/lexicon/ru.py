@@ -18,4 +18,5 @@ LEXICON_RU: Dict[str, str] = {
     "back_to_main_menu_bt": "ГЛАВНОЕ МЕНЮ",
     "product": "<b>{name}</b>\n\n{description}",
     "next_batch_bt": "Еще",
+    "buy_button": "Купить {name} ({price})",
 }
