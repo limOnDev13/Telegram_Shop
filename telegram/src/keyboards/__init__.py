@@ -18,5 +18,5 @@ SHOPPING_CART_REMOVE_PRODUCT_CB: str = (
     "shopping_cart|remove:product_id={product_id}"
 )
 SHOPPING_CART_MAKING_ORDER: str = (
-    "shopping_cart|order:product_id={product_id};count={count};user_id={user_id}"
+    "shopping_cart|order:product_id={product_id};count={count}"
 )
