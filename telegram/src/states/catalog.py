@@ -8,3 +8,4 @@ class FSMCatalog(StatesGroup):
 
     choose_category = State()
     view_products = State()
+    input_count_products = State()
