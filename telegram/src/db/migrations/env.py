@@ -18,7 +18,13 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from telegram.src.db.models import Category, ChannelToSubscribe, Product
+from telegram.src.db.models import (
+    Category,
+    ChannelToSubscribe,
+    Product,
+    ShoppingCart,
+    ProductShoppingCart,
+)
 from telegram.src.db.models.base import Base
 target_metadata = Base.metadata
 

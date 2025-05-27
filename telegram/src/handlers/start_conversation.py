@@ -15,9 +15,13 @@ from repositories.channels_to_subscribe.redis import (
 )
 from schemas.channels_to_subscribe import ChannelToSubscribeSchema
 from telegram.src.config.app import Config
+from telegram.src.db.queries.shopping_cart import (
+    create_shopping_cart_if_not_exists,
+)
 from telegram.src.db.repositories import (
     SQLAlchemyChannelsToSubscribeRepository,
 )
+from telegram.src.keyboards import BACK_TO_MAIN_MENU_CALLBACK
 from telegram.src.keyboards.channels_to_subscribe import (
     build_kb_with_channels_to_subscribe,
 )
@@ -67,6 +71,8 @@ async def process_start_command(
             ),
         )
     else:
+        # create if not exists shopping cart
+        await create_shopping_cart_if_not_exists(Session, msg.from_user.id)
         # show main menu
         logger.debug("Show main menu.")
         await msg.answer(
@@ -75,18 +81,15 @@ async def process_start_command(
         )
 
 
-@router.message(
-    ~StateFilter(default_state), F.text == LEXICON_RU["back_to_main_menu_bt"]
-)
-@router.callback_query(
-    ~StateFilter(default_state), F.data == LEXICON_RU["back_to_main_menu_bt"]
-)
+@router.message(F.text == LEXICON_RU["back_to_main_menu_bt"])
+@router.callback_query(F.data == BACK_TO_MAIN_MENU_CALLBACK)
 async def back_to_main_menu(msg: Message | CallbackQuery, state: FSMContext):
     """Show main menu."""
     logger.debug("Show main menu.")
     await state.clear()
     await state.set_state(default_state)
-    await msg.answer(
+    await msg.bot.send_message(
+        chat_id=msg.from_user.id,
         text=LEXICON_RU["successful_subscription_verification"],
         reply_markup=build_kb_with_main_menu(),
     )

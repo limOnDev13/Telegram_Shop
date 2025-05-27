@@ -28,3 +28,11 @@ async def get_products_with_category_id(
 
         results = await session.execute(query)
         return results.scalars().all()
+
+
+async def get_product_by_id(
+    Session: async_sessionmaker[AsyncSession], product_id: int
+) -> Optional[Product]:
+    """Get product."""
+    async with Session() as session:
+        return await session.get(Product, product_id)
