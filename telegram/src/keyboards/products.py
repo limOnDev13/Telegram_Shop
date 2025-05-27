@@ -37,6 +37,8 @@ def build_kb_for_buying_product(product: Product) -> InlineKeyboardMarkup:
     """Build a keyboard with categories."""
     logger.debug("Create kb for buying the product.")
     kb_builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
+    cb_data: str = BUY_PRODUCT_CB.format(product_id=product.id)
+    logger.debug("cb data: %s", cb_data)
     buy_button = InlineKeyboardButton(
         text=LEXICON_RU["buy_button"].format(
             name=product.name,
