@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from telegram.src.config.app import Config
 from telegram.src.db.queries.categories import get_number_children
-from telegram.src.keyboards import BACK_TO_MAIN_MENU_CALLBACK, CATEGORY_CB
+from telegram.src.keyboards import CATEGORY_CB
 from telegram.src.keyboards.categories import build_kb_with_categories
 from telegram.src.states.catalog import FSMCatalog
 
@@ -20,7 +20,6 @@ logger = getLogger("telegram.handlers.catalog")
 router: Router = Router()
 
 
-@router.callback_query(F.data == BACK_TO_MAIN_MENU_CALLBACK)
 @router.callback_query(StateFilter(default_state), F.data == CATEGORY_CB)
 async def show_categories(
     cb: CallbackQuery,
