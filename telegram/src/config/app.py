@@ -27,6 +27,14 @@ class RedisConfig(object):
 
 
 @dataclass
+class UKassaConfig(object):
+    """Config class for ukassa."""
+
+    api_key: str
+    currency: str
+
+
+@dataclass
 class Config(object):
     """Total config."""
 
@@ -37,6 +45,7 @@ class Config(object):
     bot: BotConfig
     redis: RedisConfig
     postgres: PostgresConfig
+    ukassa: UKassaConfig
 
 
 def get_config() -> Config:
@@ -70,5 +79,9 @@ def get_config() -> Config:
                 if debug
                 else os.getenv("POSTGRES_SYNC_URL", "Postgres sync url")
             ),
+        ),
+        ukassa=UKassaConfig(
+            api_key=os.getenv("UKASSA_API_KEY", "Ukassa API key"),
+            currency=os.getenv("UKASSA_CURRENCY", "RUB"),
         ),
     )

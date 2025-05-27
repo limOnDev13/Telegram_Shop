@@ -19,6 +19,7 @@ from telegram.src.keyboards import (
     BUY_PRODUCT_CB,
     SHOPPING_CART_BUY_PRODUCT_CB,
     SHOPPING_CART_CUR_PAGE_CB,
+    SHOPPING_CART_MAKING_ORDER,
     SHOPPING_CART_PAGINATION_CB,
     SHOPPING_CART_REMOVE_PRODUCT_CB,
 )
@@ -113,13 +114,19 @@ async def build_kb_with_shopping_cart(
     return kb_builder.as_markup(resize_keyboard=True)
 
 
-def build_kb_to_buy_product_from_cart(product_id: int) -> InlineKeyboardMarkup:
+def build_kb_to_buy_product_from_cart(
+    product_id: int, count: int
+) -> InlineKeyboardMarkup:
     """Create kb for viewing the product from shopping cart."""
     kb_builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
 
     buy_bt = InlineKeyboardButton(
         text=LEXICON_RU["buy_product_bt"],
-        callback_data="shopping_cart|buy_product",
+        # shopping_cart|order:product_id={product_id};count={count}
+        callback_data=SHOPPING_CART_MAKING_ORDER.format(
+            product_id=product_id,
+            count=count,
+        ),
     )
     remove_bt = InlineKeyboardButton(
         text=LEXICON_RU["remove_from_cart"],

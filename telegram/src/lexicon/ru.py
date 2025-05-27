@@ -27,4 +27,13 @@ LEXICON_RU: Dict[str, str] = {
     "buy_product_bt": "Купить",
     "remove_from_cart": "Удалить из корзины",
     "product_not_found": "Упс... Товар не найден!",
+    "test_payment": "Тестовая оплата. Используйте эти данные:\n"
+    "Номер карты - 2200000000000004\n"
+    "Тип карты - Mir\n"
+    "Срок - любой (больше текущей даты)\n"
+    "CVC - любой\n"
+    "Код для прохождения 3-D Secure - любой",
+    "labeled_price_label": "Заказ: {name} по цене {price} в кол-ве {count}",
+    "successful_payment": "Оплата прошла успешно! Адрес доставки: {address}",
+    "unsuccessful_payment": "Не удалось провести платеж!",
 }
