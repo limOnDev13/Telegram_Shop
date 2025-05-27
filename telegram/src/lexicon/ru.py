@@ -18,5 +18,13 @@ LEXICON_RU: Dict[str, str] = {
     "back_to_main_menu_bt": "ГЛАВНОЕ МЕНЮ",
     "product": "<b>{name}</b>\n\n{description}",
     "next_batch_bt": "Еще",
-    "buy_button": "Купить {name} ({price})",
+    "buy_button": "Добавить в корзину {name} ({price})",
+    "how_many_products": "Сколько желаете приобрести?",
+    "wrong_input_while_buying_product": "Пожалуйста, "
+    "введите положительное целое число.",
+    "product_in_sc": "{name} ({price}) | {count} шт | Всего: {total}",
+    "shopping_cart": "Ваша корзина",
+    "buy_product_bt": "Купить",
+    "remove_from_cart": "Удалить из корзины",
+    "product_not_found": "Упс... Товар не найден!",
 }
