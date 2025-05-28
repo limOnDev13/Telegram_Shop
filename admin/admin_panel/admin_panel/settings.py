@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "Django secret key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "0") == "1"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "admin.admin_panel.bot.apps.BotConfig",
+    "bot.apps.BotConfig",
 ]
 
 MIDDLEWARE = [
@@ -87,7 +87,7 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER", "user"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "password"),
         "HOST": (
-            os.getenv("POSTGRES_HOST", "localhost")
+            os.getenv("POSTGRES_HOST", "postgres")
             if not DEBUG
             else os.getenv("POSTGRES_TEST_HOST", "localhost")
         ),
@@ -101,7 +101,6 @@ DATABASES = {
         }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -138,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / ".." / ".." / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

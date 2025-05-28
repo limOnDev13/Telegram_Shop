@@ -29,21 +29,21 @@ if __name__ == "__main__":
         categories: List[Category] = list()
         for i in range(count_categories):
             if i == 0:
-                category = CategoryFactory.build(parent=None, parent_id=None)
+                category = CategoryFactory.build(parent_id=None)
             else:
                 random_parent = random.choice(categories)
                 if one_tree == "yes":
                     category = CategoryFactory.build(
-                        parent=random_parent, parent_id=random_parent.id
+                        parent_id=random_parent.id
                     )
                 else:
                     if random.random() < 0.5:
                         category = CategoryFactory.build(
-                            parent=random_parent, parent_id=random_parent.id
+                            parent_id=random_parent.id
                         )
                     else:
                         category = CategoryFactory.build(
-                            parent=None, parent_id=None
+                            parent_id=None
                         )
             session.add(category)
             session.commit()
