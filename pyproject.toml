@@ -1,0 +1,42 @@
+[project]
+name = "telegram-shop"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "flake8>=7.2.0",
+    "flake8-docstrings>=1.7.0",
+    "flake8-eradicate>=1.5.0",
+    "isort>=6.0.1",
+    "mypy>=1.15.0",
+]
+
+[tool.black]
+line-length = 79
+force-exclude = '''
+/(
+    \.venv
+    | migrations
+)
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 79
+skip_gitignore = true
+skip_glob = [
+    "**/.venv/*",
+    "**/migrations/*",
+]
+
+[tool.mypy]
+exclude = [
+    ".venv",
+    "migrations",
+]
+ignore_missing_imports = true

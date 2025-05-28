@@ -1,0 +1,20 @@
+[project]
+name = "telegram"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiogram>=3.20.0.post0",
+    "alembic>=1.16.1",
+    "asyncpg>=0.30.0",
+    "psycopg2>=2.9.10",
+    "python-dotenv>=1.1.0",
+    "redis>=6.1.0",
+    "sqlalchemy[asyncio]>=2.0.41",
+]
+
+[dependency-groups]
+dev = [
+    "factory-boy>=3.3.3",
+]

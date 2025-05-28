@@ -1,0 +1,42 @@
+services:
+
+  postgres:
+    container_name: telegram_shop-postgres
+    image: postgres:latest
+    env_file: ".env"
+    command: -c 'max_connections=500'
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    volumes:
+      - ./data/postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  redis:
+    container_name: telegram_shop-redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+    restart: unless-stopped
+    volumes:
+      - ./data/redisdata_dev:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    ulimits:
+      nofile:
+        soft: 200000
+        hard: 200000
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+          cpus: "1.0"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5

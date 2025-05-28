@@ -1,0 +1,9 @@
+**/.venv/
+data
+logs
+.env
+.python-version
+docker-compose.dev.yml
+pyproject.toml
+setup.cfg
+*.log

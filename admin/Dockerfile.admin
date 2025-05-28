@@ -1,0 +1,20 @@
+FROM python:3.13
+
+WORKDIR /Telegram_Shop
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONPATHBUFFERED=1
+
+# Установите необходимые пакеты
+RUN apt-get update && \
+    apt-get install -y redis-tools net-tools iputils-ping curl && \
+    rm -rf /var/lib/apt/lists/*
+
+
+RUN pip install --upgrade pip uv
+COPY ./admin/pyproject.toml ./admin/uv.lock ./admin/
+WORKDIR /Telegram_Shop/admin
+RUN uv sync --no-dev
+WORKDIR /Telegram_Shop
+
+COPY ./admin /Telegram_Shop/admin
